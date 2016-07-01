@@ -1,0 +1,24 @@
+{
+  "name": "bar-chart",
+  "version": "1.0.0",
+  "description": "FreeCodeCamp data visualization exercise - bar chart using d3",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jw120/fcc-bar-chart.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JW",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^4.0.0"
+  },
+  "devDependencies": {
+    "buble": "^0.12.3",
+    "eslint": "^2.13.1"
+  }
+}
