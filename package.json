@@ -8,14 +8,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "compile": "tsc",
-    "build": "rollup -c",
+    "lint": "eslint src/bar-chart.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "JW",
   "license": "MIT",
   "dependencies": {
-    "d3": "^4.0.0"
+    "d3": "^3.5.17",
+    "d3-tip": "^0.6.7"
   },
   "devDependencies": {
     "buble": "^0.12.3",

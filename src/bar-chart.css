@@ -1,0 +1,28 @@
+.chart {
+    fill: steelblue;
+}
+
+.chart text {
+    fill: black;
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-size: 10px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.x-axis path {
+    display: none
+}
+
+
+
+.footer {
+    padding-top: 10em;
+    font-size: 8pt;
+    text-align: center;
+}
