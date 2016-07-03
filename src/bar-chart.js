@@ -1,28 +1,16 @@
 /* global d3 rawData */
 
-/*
-
-TODO
-* add title
-* Make README.md
-* Thinl about colours
-* Should x scale be ordinal?
-* Eliminate gaps between bars
-* Download data in code
-* Compile to ES5
-* Linting in VS Code?
-
-*/
-
 const dataset = rawData.data.map((xs) => { return { date: xs[0], gdp: xs[1] }; });
 const maxGDP = d3.max(dataset.map((d) => d.gdp));
 
 // Constants defining how the data is visualized
-const margin = { top: 20, right: 20, bottom: 20, left: 50};
-const svgWidth = 1000;
-const svgHeight = 500;
+const margin = { top: 20, right: 20, bottom: 80, left: 50};
+const svgWidth = 800;
+const svgHeight = 600;
 const chartWidth = svgWidth - margin.left - margin.right;
 const chartHeight = svgHeight - margin.top - margin.bottom;
+const barGap = -0.5; // Gap between bars (negative to make sure they overlap)
+const barWidth = chartWidth / dataset.length - barGap;
 
 const xScale= d3.scale.linear()
   .domain([0, dataset.length - 1])
@@ -31,8 +19,6 @@ const xScale= d3.scale.linear()
 const yScale = d3.scale.linear()
   .domain([0, maxGDP])
   .range([chartHeight, 0]);
-
-const barWidth = chartWidth / dataset.length;
 
 // Create SVG element
 const svg =
@@ -75,7 +61,27 @@ chart
       .attr("y", 6) // Text anchor is about 6 units down from the top of the chart
       .attr("dy", ".71em") // Makes text anchor point about the cap height (instead of the bottom)
       .style("text-anchor", "end")
-      .text("USA GDP");
+      .text("$ Billions (seasonly adjusted)");
+
+
+// Add title and source
+chart
+  .append("text")
+    .attr("class", "title")
+    .attr("x", chartWidth * 0.5)
+    .attr("y", chartHeight * 0.1)
+    .attr("text-anchor", "middle")
+    .text("U.S. Gross Domestic Product");
+chart
+  .append("a")
+    .attr("xlink:href", "http://www.bea.gov/national/pdf/nipaguid.pdf")
+    .append("text")
+      .attr("class", "source")
+      .attr("x", chartWidth * 0.5)
+      .attr("y", chartHeight + margin.bottom * 0.5)
+      .attr("text-anchor", "middle")
+      .text("See: A Guide to the National Income and Product Accounts of the United States, " +
+            "http://www.bea.gov/national/pdf/nipaguid.pdf");
 
 const tip =
   d3
@@ -101,8 +107,7 @@ chart
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide);
 
-// Helper function
-
+// Helper functions
 
 function tooltipHTML(d) {
 
@@ -115,7 +120,7 @@ function tooltipHTML(d) {
     year + " Q" + quarter +
     "</div>" +
     '<div class="tip-gdp">' +
-    "$ " + d.gdp + " b" +
+    "$ " + addCommas(d.gdp) + " b" +
     "</div>";
 
   return t;
@@ -126,3 +131,22 @@ function translate(x, y) {
   return "translate(" + x + ", " + y + ")";
 }
 
+// Helper function to add commas to a number
+function addCommas(x) {
+
+  if (typeof x === "number") {
+    return (x < 0) ? "-" + addCommas((-x).toString()) : addCommas(x.toString());
+  }
+
+  let point = x.indexOf(".");
+  if (point !== -1) {
+    return addCommas(x.substr(0, point)) + x.substr(point);
+  }
+
+  if (x.length > 3) {
+    return addCommas(x.substr(0, x.length - 3)) + "," + x.substr(-3);
+  }
+
+  return x;
+
+}
