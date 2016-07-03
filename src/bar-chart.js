@@ -1,10 +1,14 @@
-/*global d3 rawData */
+/* global d3 rawData */
 
 /*
 
 TODO
+* Understand tip css - and look at examples
 * Add date to data
-* Mouseover
+* add title
+* Thinl about colours
+* Should x scale be ordinal?
+* Eliminate gaps between bars
 * Download data in code
 * Compile to ES5
 * Linting in VS Code?
@@ -25,7 +29,7 @@ const xScale= d3.scale.linear()
 	.range([0, chartWidth]);
 
 const yScale = d3.scale.linear()
-  .domain([d3.min(dataset), d3.max(dataset)])
+  .domain([0, d3.max(dataset)])
   .range([chartHeight, 0]);
 
 const barWidth = chartWidth / dataset.length;
@@ -64,7 +68,7 @@ const yAxis =
   .orient("left");
 chartGroup
 	.append("g")
-  	.attr("class", "axis y-axis")
+		.attr("class", "axis y-axis")
     .call(yAxis)
     .append("text")
       .attr("transform", "rotate(-90)")
@@ -73,21 +77,32 @@ chartGroup
       .style("text-anchor", "end")
       .text("USA GDP");
 
+const tip =
+	d3
+	.tip()
+		.attr("class", "d3-tip")
+		.offset([-10, 0])
+		.html((d) => "<strong>$ " + d + " b</strong>");
+	chartGroup
+		.call(tip);
+
 // Add bars
 chartGroup
 	.append("g")
-		.attr("class", "bars")
-  	.selectAll("rect")
-  	.data(dataset)
+		.selectAll("rect")
+		.data(dataset)
 		.enter()
 		.append("rect")
+			.attr("class", "bar")
 			.attr("x", (d, i) => xScale(i))
 			.attr("y", (d) => yScale(d))
 			.attr("width", barWidth)
-			.attr("height", (d) => chartHeight - yScale(d));
+			.attr("height", (d) => chartHeight - yScale(d))
+			.on("mouseover", tip.show)
+      .on("mouseout", tip.hide);
 
 // Helper function
 
 function translate(x, y) {
-	return "translate(" + x + ", " + y + ")";
+  return "translate(" + x + ", " + y + ")";
 }
