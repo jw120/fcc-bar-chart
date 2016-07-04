@@ -9,6 +9,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/*.js",
+    "build:compile": "buble src/ -o build/",
+    "build:copy": "cp src/index.html src/bar-chart.css build/",
+    "build:lib:d3": "cp node_modules/d3/d3.min.js build/",
+    "build:lib:d3-tip": "cp node_modules/d3-tip/index.js build/d3-tip.js",
+    "build": "mkdir -p build && npm run build:compile && npm run build:copy && npm run build:lib:d3 && npm run build:lib:d3-tip",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "JW",
