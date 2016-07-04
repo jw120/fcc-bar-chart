@@ -13,9 +13,10 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 
 ## TODO
 
-* Check y-axis labels
-* Fix x-axis scale, ordinal?
 * Tidy files and add comments
+
+* Can we migrate to v4? (Does d3-tip work?)
 
 * Download data in code
 * Compile to ES5
+* TypeScript?

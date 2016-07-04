@@ -1,10 +1,11 @@
 /* global d3 rawData */
 
-const dataset = rawData.data.map((xs) => { return { date: xs[0], gdp: xs[1] }; });
+const timeFormat = d3.time.format("%Y-%m-%d");
+const dataset = rawData.data.map((xs) => { return { date: timeFormat.parse(xs[0]), gdp: xs[1] }; });
 const maxGDP = d3.max(dataset.map((d) => d.gdp));
 
 // Constants defining how the data is visualized
-const margin = { top: 20, right: 20, bottom: 80, left: 50};
+const margin = { top: 50, right: 20, bottom: 80, left: 50};
 const svgWidth = 800;
 const svgHeight = 600;
 const chartWidth = svgWidth - margin.left - margin.right;
@@ -12,8 +13,9 @@ const chartHeight = svgHeight - margin.top - margin.bottom;
 const barGap = -0.5; // Gap between bars (negative to make sure they overlap)
 const barWidth = chartWidth / dataset.length - barGap;
 
-const xScale= d3.scale.linear()
-  .domain([0, dataset.length - 1])
+
+const xScale= d3.time.scale()
+  .domain([dataset[0].date, dataset[dataset.length - 1].date])
   .range([0, chartWidth]);
 
 const yScale = d3.scale.linear()
@@ -100,7 +102,7 @@ chart
     .enter()
     .append("rect")
       .attr("class", "bar")
-      .attr("x", (d, i) => xScale(i))
+      .attr("x", (d) => xScale(d.date))
       .attr("y", (d) => yScale(d.gdp))
       .attr("width", barWidth)
       .attr("height", (d) => chartHeight - yScale(d.gdp))
@@ -111,13 +113,11 @@ chart
 
 function tooltipHTML(d) {
 
-  let year = d.date.substr(0, 4);
-  let month = d.date.substr( 5, 2);
-  let quarter = 1 + Math.floor((+month) / 3);
+  let quarter = 1 + Math.floor((d.date.getMonth()) / 3);
 
   let t =
     '<div class="tip-date">' +
-    year + " Q" + quarter +
+    d.date.getFullYear() + " Q" + quarter +
     "</div>" +
     '<div class="tip-gdp">' +
     "$ " + addCommas(d.gdp) + " b" +
