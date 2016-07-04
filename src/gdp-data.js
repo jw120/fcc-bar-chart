@@ -4,6 +4,7 @@
  *
  */
 
+/*eslint no-unused-vars: ["off"] */
 
 const localRawDataset = {
   "errors": {},
@@ -1128,4 +1129,4 @@ const localRawDataset = {
       18064.7
     ]
   ]
-}
+};
