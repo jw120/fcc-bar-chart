@@ -14,6 +14,7 @@
         "default-case": ["error"],
         "eqeqeq": ["error", "smart"],
         "no-else-return": ["error"],
-        "no-eq-null": ["error"]
+        "no-eq-null": ["error"],
+        "no-console": ["error", { "allow": ["warn", "error"] }]
     }
 }

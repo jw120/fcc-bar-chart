@@ -13,10 +13,7 @@ Hosted at [jw120.github.io](https://jw120.github.io)
 
 ## TODO
 
-* Tidy files and add comments
-
-* Can we migrate to v4? (Does d3-tip work?)
-
-* Download data in code
+* Tidy readme
+* Can we migrate to v4? (Does d3-tip work?) (How about typings?)
 * Compile to ES5
 * TypeScript?

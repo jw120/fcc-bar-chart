@@ -1,4 +1,11 @@
-const rawData = {
+/*
+ * Downloaded from https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json
+ * Used if download fails when running
+ *
+ */
+
+
+const localRawDataset = {
   "errors": {},
   "id": 120140,
   "source_name": "Federal Reserve Economic Data",
